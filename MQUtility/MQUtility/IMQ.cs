@@ -1,62 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MQUtility
 {
     public interface IMQ
     {
         /// <summary>
-        ///     佇列路徑
+        ///     MQ Path
         /// </summary>
         string Path { get; }
 
         /// <summary>
-        ///     建立接收
+        ///     Register receive event
         /// </summary>
-        /// <param name="action"> 接收完成後要處理的動作 </param>
-        void Receive(Action<object> action);
+        /// <param name="action"> Do action after receive </param>
+        void RegisterReceive(Action<object> action);
 
         /// <summary>
-        ///     建立接收
+        ///     Register peek event 
         /// </summary>
-        /// <param name="func"> 接收完成後要處理的動作 </param>
-        void Peek(Func<object, bool> func);
+        /// <param name="func"> Do action after peek </param>
+        void RegisterPeek(Func<object, bool> func);
 
         /// <summary>
-        ///     發送
+        ///     Snd Message
         /// </summary>
-        /// <param name="msg"> 發送的訊息物件 </param>
-        void Send(object msg);
+        /// <param name="msg"> Data Message </param>
+        void SendMsg(object msg);
 
         /// <summary>
-        ///     將第一筆訊息從佇列中移除
+        ///     Remove first data from queue
         /// </summary>
-        void RemoveFirst();
+        void RemoveFirstData();
 
         /// <summary>
-        ///     清空佇列
+        ///       Remove all data from queue
         /// </summary>
-        void Clear();
+        void ClearData();
 
         /// <summary>
-        ///     檢查佇列是否存在
+        ///     Check MQ path exist.
         /// </summary>
-        /// <returns> true：存在，false：不存在 </returns>
+        /// <returns> true：exist，false：none </returns>
         bool IsExists();
 
         /// <summary>
-        ///     取得佇列訊息數
+        ///     Get data counts from queue
         /// </summary>
-        /// <returns> 訊息數 </returns>
-        long Count();
+        /// <returns> Count data counts from queue </returns>
+        long CountData();
 
         /// <summary>
-        ///     Peek訊息
+        ///     Try dequeue data
         /// </summary>
-        /// <returns> 訊息 </returns>
+        /// <returns> Data </returns>
         object PeekMsg();
+
+        /// <summary>
+        ///     Dequeue data
+        /// </summary>
+        /// <returns> Data </returns>
+        object ReceiveMsg();
+
+        /// <summary>
+        /// Delete MQ
+        /// </summary>
+        void DeleteQueue();
     }
 }

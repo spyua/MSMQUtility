@@ -26,44 +26,113 @@ namespace MQUtility
 
         public void RegisterRcv(string name, Action<object> action)
         {
-            DicMQPool[name].Receive(action);
+            DicMQPool[name].RegisterReceive(action);
         }
         public void RegisterPeek(string name, Func<object, bool> func)
         {
-            DicMQPool[name].Peek(func);
+            DicMQPool[name].RegisterPeek(func);
         }
 
-        public void Send(string name, object msg)
+        public void SendMsg(string name, object msg)
         {
-            this.DicMQPool[name].Send(msg);
-        }
-        public T Peek<T>(string name)
-        {
-            var obj = this.DicMQPool[name].PeekMsg();
-            return (T)obj;
-        }
-
-        public long GetCount(string name)
-        {
-            var count = this.DicMQPool[name].Count();
-            return count;
-        }
-        public void RemoveFirst(string name)
-        {
-            this.DicMQPool[name].RemoveFirst();
+            try
+            {
+                DicMQPool[name].SendMsg(msg);
+            }
+            catch
+            {
+                throw;
+            }
+           
+            
         }
 
-        public void Clear(string name)
+        public T ReceiveMsg<T>(string name)
         {
-            this.DicMQPool[name].Clear();
+            try
+            {
+                var obj = DicMQPool[name].ReceiveMsg();
+                return (T)obj;
+            }
+            catch
+            {
+                throw;
+            }
+               
+           
+          
+        }
+        public T PeekMsg<T>(string name)
+        {
+            try
+            {
+                var obj = DicMQPool[name].PeekMsg();
+                return (T)obj;
+            }
+            catch
+            {
+                throw;
+            }
+         
+        }
+        public long GetDataCont(string name)
+        {
+            try
+            {
+                var count = DicMQPool[name].CountData();
+                return count;
+            }
+            catch
+            {
+                throw;
+            }
+           
+        }
+        public void RemoveFirstData(string name)
+        {
+            try
+            {
+                DicMQPool[name].RemoveFirstData();
+            }
+            catch
+            {
+                throw;
+            }
+        
+        }
+        public void ClearData(string name)
+        {
+
+            try
+            {
+                DicMQPool[name].ClearData();
+            }
+            catch
+            {
+                throw;
+            }
+     
+        }
+        public void RemoveQueue(string name)
+        {
+            try
+            {
+                IMQ msg;
+                DicMQPool[name].DeleteQueue();
+                DicMQPool.TryRemove(name, out msg);
+            }
+            catch
+            {
+                throw;
+            }
+          
         }
         private void AddMQPool(string name)
         {
-        
             if (!DicMQPool.ContainsKey(name))
                 DicMQPool.TryAdd(name, new MQ(name));
         }
 
-      
+       
     }
 }

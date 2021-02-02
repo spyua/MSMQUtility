@@ -16,14 +16,11 @@ namespace MQUtility
         public MQ(string name)
         {
             Path = @".\Private$\" + name.ToLower();
-            Create();
-
+            CreateQueue(Path);
         }
 
-        public virtual void Receive(Action<object> action)
+        public virtual void RegisterReceive(Action<object> action)
         {
-            //Create();
-
             if (_action == null)
             {
                 _action = action;
@@ -35,10 +32,8 @@ namespace MQUtility
             _mq.BeginReceive();
         }
 
-        public virtual void Peek(Func<object, bool> func)
+        public virtual void RegisterPeek(Func<object, bool> func)
         {
-            //Create();
-
             if (_action == null)
             {
                 _func = func;
@@ -51,10 +46,8 @@ namespace MQUtility
             _mq.BeginPeek();
         }
 
-        public virtual void Send(object msg)
+        public virtual void SendMsg(object msg)
         {
-            //Create();
-
             lock (_lockObj)
             {
                 try
@@ -68,12 +61,10 @@ namespace MQUtility
             }
         }
 
-        public virtual void RemoveFirst()
+        public virtual void RemoveFirstData()
         {
             try
             {
-                Create();
-
                 _mq.Receive();
             }
             catch
@@ -82,14 +73,12 @@ namespace MQUtility
             }
         }
 
-        public virtual void Clear()
+        public virtual void ClearData()
         {
             lock (_lockObj)
             {
                 try
-                {
-                    Create();
-
+                {                
                     _mq.Purge();
                 }
                 catch
@@ -104,12 +93,10 @@ namespace MQUtility
             return MessageQueue.Exists(Path);
         }
 
-        public virtual long Count()
+        public virtual long CountData()
         {
             try
             {
-                //Create();
-
                 var enumerator = _mq.GetMessageEnumerator2();
                 var count = 0L;
 
@@ -126,12 +113,27 @@ namespace MQUtility
             }
         }
 
+        public virtual object ReceiveMsg()
+        {
+            try
+            {
+                var msg = _mq.Receive();
+                return msg.Body;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _mq.Close();
+            }
+        }
+
         public virtual object PeekMsg()
         {
             try
             {
-                //Create();
-
                 var msg = _mq.Peek();
 
                 return msg.Body;
@@ -140,9 +142,11 @@ namespace MQUtility
             {
                 throw;
             }
+            finally
+            {
+                _mq.Close();
+            }
         }
-
-
 
         /// <summary>
         ///     接收完成後處理的動作
@@ -182,24 +186,42 @@ namespace MQUtility
         /// <summary>
         ///     建立佇列
         /// </summary>
-        protected virtual void Create()
+        public virtual void CreateQueue(string path)
         {
-            if (string.IsNullOrEmpty(Path))
+            if (string.IsNullOrEmpty(path))
                 throw new Exception($"MSMQ path is empty");
 
             //  檢查佇列是否存在
             if (!IsExists())
             {
                 _mq = null;
-                MessageQueue.Create(Path);
+                MessageQueue.Create(path);
             }
 
             if (_mq == null)
             {
-                _mq = new MessageQueue(Path);
-                _mq.DefaultPropertiesToSend.Recoverable = true;
+                _mq = new MessageQueue(path);
+                _mq.DefaultPropertiesToSend.Recoverable = true; //Default Forever Save
                 _mq.Formatter = new BinaryMessageFormatter();
             }
         }
+
+        public virtual void DeleteQueue()
+        {
+            // Determine whether the queue exists.
+            if (MessageQueue.Exists(Path))
+            {
+                try
+                {
+                    // Delete the queue.
+                    MessageQueue.Delete(Path);
+                }
+                catch (MessageQueueException e)
+                {
+                    throw e;
+                }
+            }
+        }
+ 
     }
 }

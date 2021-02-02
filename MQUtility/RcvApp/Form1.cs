@@ -32,10 +32,5 @@ namespace RcvApp
             });
         }
 
-
-        private void btn_Send_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

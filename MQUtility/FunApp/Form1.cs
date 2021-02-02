@@ -30,20 +30,68 @@ namespace FunApp
 
         private void DisplayMQCnt(object sender, ElapsedEventArgs e)
         {
-            var mqCnt = _mqPool.GetCount(SystemMQ.FunApp);
-            Invoke(new Action(() => {
-                MqCntLabel.Text = mqCnt.ToString();
-            }));
+
+            TryFlow(() => {
+                var mqCnt = _mqPool.GetDataCont(SystemMQ.FunApp);                
+                Invoke(new Action(() => {
+                    MqCntLabel.Text = mqCnt.ToString();
+                }));              
+            });
+
+           
         }
 
         private void ClearAllMQBtn_Click(object sender, EventArgs e)
         {
-            _mqPool.Clear(SystemMQ.FunApp);
+            TryFlow(() =>
+            {
+                _mqPool.ClearData(SystemMQ.FunApp);
+            });
+                
         }
 
         private void MQRemoveFirstBtn_Click(object sender, EventArgs e)
         {
-            _mqPool.RemoveFirst(SystemMQ.FunApp);
+            TryFlow(() =>
+            {
+                _mqPool.RemoveFirstData(SystemMQ.FunApp);
+            });
+           
         }
+
+        private void TryDequeuBtn_Click(object sender, EventArgs e)
+        {
+            TryFlow(() =>
+            {
+                var domainMsg = _mqPool.PeekMsg<DomainMsg>(SystemMQ.FunApp);
+                DequeuTxt.Text = "Source:" + domainMsg.Id + "Data:" + domainMsg.Content + "\r\n";
+            });
+    
+        }
+
+        private void DequeuBtn_Click(object sender, EventArgs e)
+        {
+            TryFlow(() =>
+            {
+                var domainMsg = _mqPool.ReceiveMsg<DomainMsg>(SystemMQ.FunApp);
+                DequeuTxt.Text = "Source:" + domainMsg.Id + "Data:" + domainMsg.Content + "\r\n";
+            });
+        }
+
+        private void TryFlow(Action action, bool @throw = false)
+        {
+            try
+            {
+                action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                // Log Record
+                 Console.WriteLine(ex.ToString());
+                 if (@throw) throw;
+            }
+        }
+
+    
     }
 }

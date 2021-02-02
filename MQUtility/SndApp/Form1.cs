@@ -30,14 +30,24 @@ namespace SndApp
 
         private void SndRcvApp(object sender, ElapsedEventArgs e)
         {
-            _mqPool.Send(SystemMQ.RcvApp, new DomainMsg(SystemMQ.SndApp, txt_Send.Text));
+            TryFlow(() =>
+            {
+                _mqPool.SendMsg(SystemMQ.RcvApp, new DomainMsg(SystemMQ.SndApp, txt_Send.Text));
+            });
+          
         }
 
         private void btn_Send_Click(object sender, EventArgs e)
         {
             _tmrSend.Stop();
-            _mqPool.Send(SystemMQ.RcvApp, new DomainMsg(SystemMQ.SndApp, txt_Send.Text));
-            _mqPool.Send(SystemMQ.FunApp, new DomainMsg(SystemMQ.SndApp, txt_Send.Text));
+
+            TryFlow(() =>
+            {
+                _mqPool.SendMsg(SystemMQ.RcvApp, new DomainMsg(SystemMQ.SndApp, txt_Send.Text));
+                _mqPool.SendMsg(SystemMQ.FunApp, new DomainMsg(SystemMQ.SndApp, txt_Send.Text));
+            });
+          
+           
         }
 
         private void SpeedlySndBtn_Click(object sender, EventArgs e)
@@ -45,6 +55,18 @@ namespace SndApp
             _tmrSend.Start();
         }
 
-        
+        private void TryFlow(Action action, bool @throw = false)
+        {
+            try
+            {
+                action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                // Log Record
+                Console.WriteLine(ex.ToString());
+                if (@throw) throw;
+            }
+        }
     }
 }

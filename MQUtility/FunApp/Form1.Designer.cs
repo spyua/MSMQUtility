@@ -33,6 +33,9 @@ namespace FunApp
             this.ClearAllMQBtn = new System.Windows.Forms.Button();
             this.MqCntLabel = new System.Windows.Forms.Label();
             this.lbl_PendingMqCnt = new System.Windows.Forms.Label();
+            this.DequeuTxt = new System.Windows.Forms.TextBox();
+            this.TryDequeuBtn = new System.Windows.Forms.Button();
+            this.DequeuBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // MQRemoveFirstBtn
@@ -75,11 +78,42 @@ namespace FunApp
             this.lbl_PendingMqCnt.TabIndex = 19;
             this.lbl_PendingMqCnt.Text = "待處理訊息數：";
             // 
+            // DequeuTxt
+            // 
+            this.DequeuTxt.Location = new System.Drawing.Point(44, 237);
+            this.DequeuTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.DequeuTxt.Name = "DequeuTxt";
+            this.DequeuTxt.Size = new System.Drawing.Size(346, 25);
+            this.DequeuTxt.TabIndex = 24;
+            // 
+            // TryDequeuBtn
+            // 
+            this.TryDequeuBtn.Location = new System.Drawing.Point(44, 158);
+            this.TryDequeuBtn.Name = "TryDequeuBtn";
+            this.TryDequeuBtn.Size = new System.Drawing.Size(121, 54);
+            this.TryDequeuBtn.TabIndex = 25;
+            this.TryDequeuBtn.Text = "TryDequeu";
+            this.TryDequeuBtn.UseVisualStyleBackColor = true;
+            this.TryDequeuBtn.Click += new System.EventHandler(this.TryDequeuBtn_Click);
+            // 
+            // DequeuBtn
+            // 
+            this.DequeuBtn.Location = new System.Drawing.Point(186, 158);
+            this.DequeuBtn.Name = "DequeuBtn";
+            this.DequeuBtn.Size = new System.Drawing.Size(121, 54);
+            this.DequeuBtn.TabIndex = 26;
+            this.DequeuBtn.Text = "Dequeu";
+            this.DequeuBtn.UseVisualStyleBackColor = true;
+            this.DequeuBtn.Click += new System.EventHandler(this.DequeuBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.DequeuBtn);
+            this.Controls.Add(this.TryDequeuBtn);
+            this.Controls.Add(this.DequeuTxt);
             this.Controls.Add(this.MQRemoveFirstBtn);
             this.Controls.Add(this.ClearAllMQBtn);
             this.Controls.Add(this.MqCntLabel);
@@ -99,6 +133,9 @@ namespace FunApp
         private System.Windows.Forms.Button ClearAllMQBtn;
         private System.Windows.Forms.Label MqCntLabel;
         private System.Windows.Forms.Label lbl_PendingMqCnt;
+        private System.Windows.Forms.TextBox DequeuTxt;
+        private System.Windows.Forms.Button TryDequeuBtn;
+        private System.Windows.Forms.Button DequeuBtn;
     }
 }
 
