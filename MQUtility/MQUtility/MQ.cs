@@ -1,9 +1,205 @@
-﻿namespace MQUtility
+﻿using System;
+using System.Messaging;
+
+namespace MQUtility
 {
-    public class MQ : BaseMQ, IMQ
+    public class MQ : IMQ
     {
-        public MQ(string name) : base(name)
+        public string Path { get; private set; } = string.Empty;
+
+        private readonly object _lockObj = new object();
+
+        private MessageQueue _mq = null;
+        private Action<object> _action = null;
+        private Func<object, bool> _func = null;
+
+        public MQ(string name)
         {
+            Path = @".\Private$\" + name.ToLower();
+            Create();
+
+        }
+
+        public virtual void Receive(Action<object> action)
+        {
+            //Create();
+
+            if (_action == null)
+            {
+                _action = action;
+                //  註冊 receive 事件
+                _mq.ReceiveCompleted += new ReceiveCompletedEventHandler(RcvCompleted);
+            }
+
+            //  開始接收
+            _mq.BeginReceive();
+        }
+
+        public virtual void Peek(Func<object, bool> func)
+        {
+            //Create();
+
+            if (_action == null)
+            {
+                _func = func;
+
+                //  註冊 receive 事件
+                _mq.PeekCompleted += new PeekCompletedEventHandler(PeekCompleted);
+            }
+
+            //  開始接收
+            _mq.BeginPeek();
+        }
+
+        public virtual void Send(object msg)
+        {
+            //Create();
+
+            lock (_lockObj)
+            {
+                try
+                {
+                    _mq.Send(msg);
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
+        public virtual void RemoveFirst()
+        {
+            try
+            {
+                Create();
+
+                _mq.Receive();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public virtual void Clear()
+        {
+            lock (_lockObj)
+            {
+                try
+                {
+                    Create();
+
+                    _mq.Purge();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
+        public virtual bool IsExists()
+        {
+            return MessageQueue.Exists(Path);
+        }
+
+        public virtual long Count()
+        {
+            try
+            {
+                //Create();
+
+                var enumerator = _mq.GetMessageEnumerator2();
+                var count = 0L;
+
+                while (enumerator.MoveNext())
+                {
+                    count++;
+                }
+
+                return count;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public virtual object PeekMsg()
+        {
+            try
+            {
+                //Create();
+
+                var msg = _mq.Peek();
+
+                return msg.Body;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+
+        /// <summary>
+        ///     接收完成後處理的動作
+        /// </summary>
+        protected virtual void RcvCompleted(object sender, ReceiveCompletedEventArgs e)
+        {
+            lock (_lockObj)
+            {
+                //  委派執行的動作
+                _action(e.Message.Body);
+
+                //  繼續開始接收
+                _mq.BeginReceive();
+            }
+        }
+
+        /// <summary>
+        ///     接收完成後處理的動作
+        /// </summary>
+        protected virtual void PeekCompleted(object sender, PeekCompletedEventArgs e)
+        {
+            lock (_lockObj)
+            {
+                //  委派執行的動作
+                if (_func.Invoke(e.Message.Body))
+                {
+                    _mq.BeginReceive();
+                }
+                else
+                {
+                    _mq.BeginPeek();
+                }
+
+            }
+        }
+
+        /// <summary>
+        ///     建立佇列
+        /// </summary>
+        protected virtual void Create()
+        {
+            if (string.IsNullOrEmpty(Path))
+                throw new Exception($"MSMQ path is empty");
+
+            //  檢查佇列是否存在
+            if (!IsExists())
+            {
+                _mq = null;
+                MessageQueue.Create(Path);
+            }
+
+            if (_mq == null)
+            {
+                _mq = new MessageQueue(Path);
+                _mq.DefaultPropertiesToSend.Recoverable = true;
+                _mq.Formatter = new BinaryMessageFormatter();
+            }
         }
     }
 }

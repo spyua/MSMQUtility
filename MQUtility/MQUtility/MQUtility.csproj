@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseMQ.cs" />
-    <Compile Include="IBaseMQ.cs" />
-    <Compile Include="IMQ.cs" />
+    <Compile Include="IMQPool.cs" />
     <Compile Include="MQ.cs" />
+    <Compile Include="IMQ.cs" />
+    <Compile Include="MQPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
