@@ -44,7 +44,7 @@ namespace FunApp
             this.MQRemoveFirstBtn.Name = "MQRemoveFirstBtn";
             this.MQRemoveFirstBtn.Size = new System.Drawing.Size(121, 54);
             this.MQRemoveFirstBtn.TabIndex = 22;
-            this.MQRemoveFirstBtn.Text = "清掉一筆";
+            this.MQRemoveFirstBtn.Text = "Remove One";
             this.MQRemoveFirstBtn.UseVisualStyleBackColor = true;
             this.MQRemoveFirstBtn.Click += new System.EventHandler(this.MQRemoveFirstBtn_Click);
             // 
@@ -54,7 +54,7 @@ namespace FunApp
             this.ClearAllMQBtn.Name = "ClearAllMQBtn";
             this.ClearAllMQBtn.Size = new System.Drawing.Size(121, 54);
             this.ClearAllMQBtn.TabIndex = 21;
-            this.ClearAllMQBtn.Text = "清空MQ";
+            this.ClearAllMQBtn.Text = "Clear MQ";
             this.ClearAllMQBtn.UseVisualStyleBackColor = true;
             this.ClearAllMQBtn.Click += new System.EventHandler(this.ClearAllMQBtn_Click);
             // 
@@ -74,9 +74,9 @@ namespace FunApp
             this.lbl_PendingMqCnt.Location = new System.Drawing.Point(642, 33);
             this.lbl_PendingMqCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_PendingMqCnt.Name = "lbl_PendingMqCnt";
-            this.lbl_PendingMqCnt.Size = new System.Drawing.Size(112, 15);
+            this.lbl_PendingMqCnt.Size = new System.Drawing.Size(134, 19);
             this.lbl_PendingMqCnt.TabIndex = 19;
-            this.lbl_PendingMqCnt.Text = "待處理訊息數：";
+            this.lbl_PendingMqCnt.Text = "MQ Data Num：";
             // 
             // DequeuTxt
             // 

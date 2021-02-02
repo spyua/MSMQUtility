@@ -49,7 +49,7 @@ namespace SndApp
             this.btn_Send.Name = "btn_Send";
             this.btn_Send.Size = new System.Drawing.Size(100, 28);
             this.btn_Send.TabIndex = 18;
-            this.btn_Send.Text = "發送";
+            this.btn_Send.Text = "Send";
             this.btn_Send.UseVisualStyleBackColor = true;
             this.btn_Send.Click += new System.EventHandler(this.btn_Send_Click);
             // 
@@ -59,7 +59,7 @@ namespace SndApp
             this.SpeedlySndBtn.Name = "SpeedlySndBtn";
             this.SpeedlySndBtn.Size = new System.Drawing.Size(100, 30);
             this.SpeedlySndBtn.TabIndex = 21;
-            this.SpeedlySndBtn.Text = "快速發送";
+            this.SpeedlySndBtn.Text = "Snd Speedly";
             this.SpeedlySndBtn.UseVisualStyleBackColor = true;
             this.SpeedlySndBtn.Click += new System.EventHandler(this.SpeedlySndBtn_Click);
             // 

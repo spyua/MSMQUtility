@@ -13,7 +13,7 @@ namespace MQUtility
             AddMQPool(name);
         }
 
-        public MQPool AddObjectMQ(string name)
+        public MQPool AddTargetMQ(string name)
         {
             AddMQPool(name);
             return this;

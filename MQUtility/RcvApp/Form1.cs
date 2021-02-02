@@ -26,7 +26,7 @@ namespace RcvApp
             {
                 var msg = obj as DomainMsg;
                 Invoke(new Action(() => {
-                    var content = "Source:" + msg.Id + "Data:" + msg.Content + "\r\n";
+                    var content = "Source:" + msg.Id + "\t Data:" + msg.Content + "\r\n";
                     rtxt_ShowMqInfo.AppendText(content);
                 }));
             });
