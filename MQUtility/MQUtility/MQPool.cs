@@ -19,21 +19,21 @@ namespace MQUtility
             return this;
         }
 
-        public IMQ GetMQ(string name)
+        public virtual IMQ GetMQ(string name)
         {
             return DicMQPool[name];
         }
 
-        public void RegisterRcv(string name, Action<object> action)
+        public virtual void RegisterRcv(string name, Action<object> action)
         {
             DicMQPool[name].RegisterReceive(action);
         }
-        public void RegisterPeek(string name, Func<object, bool> func)
+        public virtual void RegisterPeek(string name, Func<object, bool> func)
         {
             DicMQPool[name].RegisterPeek(func);
         }
 
-        public void SendMsg(string name, object msg)
+        public virtual void SendMsg(string name, object msg)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace MQUtility
             
         }
 
-        public T ReceiveMsg<T>(string name)
+        public virtual T ReceiveMsg<T>(string name)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace MQUtility
            
           
         }
-        public T PeekMsg<T>(string name)
+        public virtual T PeekMsg<T>(string name)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace MQUtility
             }
          
         }
-        public long GetDataCont(string name)
+        public virtual long GetDataCont(string name)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace MQUtility
             }
            
         }
-        public void RemoveFirstData(string name)
+        public virtual void RemoveFirstData(string name)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace MQUtility
             }
         
         }
-        public void ClearData(string name)
+        public virtual void ClearData(string name)
         {
 
             try
@@ -113,7 +113,7 @@ namespace MQUtility
             }
      
         }
-        public void RemoveQueue(string name)
+        public virtual void RemoveQueue(string name)
         {
             try
             {
