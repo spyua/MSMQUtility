@@ -7,15 +7,15 @@ namespace MQUtility
     {
         public ConcurrentDictionary<string, IMQ> DicMQPool { get; private set; } = null;
 
-        public MQPool(string name)
+        public MQPool(params string[] names)
         {
             DicMQPool = new ConcurrentDictionary<string, IMQ>();
-            AddMQPool(name);
+            AddMQPool(names);
         }
 
-        public MQPool AddTargetMQ(string name)
+        public MQPool AddTargetMQ(params string[] names)
         {
-            AddMQPool(name);
+            AddMQPool(names);
             return this;
         }
 
@@ -127,10 +127,11 @@ namespace MQUtility
             }
           
         }
-        private void AddMQPool(string name)
+        private void AddMQPool(params string[] names)
         {
-            if (!DicMQPool.ContainsKey(name))
-                DicMQPool.TryAdd(name, new MQ(name));
+            foreach (var name in names)
+                if (!DicMQPool.ContainsKey(name))
+                    DicMQPool.TryAdd(name, new MQ(name));
         }
 
        

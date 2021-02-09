@@ -19,6 +19,7 @@ namespace FunApp
         private void Form1_Load(object sender, EventArgs e)
         {
             _mqPool = new MQPool(SystemMQ.FunApp).AddTargetMQ(SystemMQ.RcvApp);
+            //_mqPool = new MQPool(SystemMQ.FunApp, SystemMQ.RcvApp);
             _tmrSend = new System.Timers.Timer(200);
             _tmrSend.Elapsed += DisplayMQCnt;
         }
