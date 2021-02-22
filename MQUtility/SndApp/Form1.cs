@@ -18,7 +18,7 @@ namespace SndApp
 
         private void SndAppForm_Load(object sender, EventArgs e)
         {
-            _mqPool = new MQPool(SystemMQ.SndApp).AddTargetMQ(SystemMQ.RcvApp).AddTargetMQ(SystemMQ.FunApp);
+            _mqPool = MQPool.Instance.AddMQ(SystemMQ.SndApp, SystemMQ.RcvApp, SystemMQ.FunApp);
             _tmrSend = new System.Timers.Timer(10);
             _tmrSend.Elapsed += SndRcvApp;
         }

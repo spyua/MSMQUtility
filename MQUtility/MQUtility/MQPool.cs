@@ -3,17 +3,21 @@ using System.Collections.Concurrent;
 
 namespace MQUtility
 {
+
+    // Wait Modify Singleton
     public class MQPool : IMQPool
     {
-        public ConcurrentDictionary<string, IMQ> DicMQPool { get; private set; } = null;
 
-        public MQPool(params string[] names)
+        public ConcurrentDictionary<string, IMQ> DicMQPool { get; private set; } = new ConcurrentDictionary<string, IMQ>();
+
+        public static class SingletonHolder
         {
-            DicMQPool = new ConcurrentDictionary<string, IMQ>();
-            AddMQPool(names);
+            static SingletonHolder() { }
+            internal static readonly MQPool INSTANCE = new MQPool();
         }
+        public static MQPool Instance { get { return SingletonHolder.INSTANCE; } }
 
-        public MQPool AddTargetMQ(params string[] names)
+        public MQPool AddMQ(params string[] names)
         {
             AddMQPool(names);
             return this;

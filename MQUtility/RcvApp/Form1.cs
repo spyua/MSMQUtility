@@ -17,7 +17,7 @@ namespace RcvApp
 
         private void RcvForm_Load(object sender, EventArgs e)
         {
-            _mqPool = new MQPool(SystemMQ.RcvApp);
+            _mqPool = MQPool.Instance.AddMQ(SystemMQ.RcvApp);
         }
 
         private void RcvForm_Shown(object sender, EventArgs e)
