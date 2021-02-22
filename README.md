@@ -10,7 +10,7 @@ Microsoft Message Queuing Utility.
 
  - Create MQ Pool
  ```
- var mqpool = new MQPool("Name").AddTargetMQ("Target Name")
+ var mqpool = MQPool.Instance.AddMQ("Target Name")
  ```
  
  - Register Receive
