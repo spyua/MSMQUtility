@@ -5,64 +5,64 @@ namespace MQUtility
     public interface IMQ
     {
         /// <summary>
-        ///     MQ Path
+        ///     訊息佇列的路徑
         /// </summary>
         string Path { get; }
 
         /// <summary>
-        ///     Register receive event
+        ///     註冊接收事件
         /// </summary>
-        /// <param name="action"> Do action after receive </param>
+        /// <param name="action">在接收後執行的動作</param>
         void RegisterReceive(Action<object> action);
 
         /// <summary>
-        ///     Register peek event 
+        ///     註冊預覽事件
         /// </summary>
-        /// <param name="func"> Do action after peek </param>
+        /// <param name="func">在預覽後執行的函數</param>
         void RegisterPeek(Func<object, bool> func);
 
         /// <summary>
-        ///     Snd Message
+        ///     發送訊息
         /// </summary>
-        /// <param name="msg"> Data Message </param>
+        /// <param name="msg">要發送的訊息內容</param>
         void SendMsg(object msg);
 
         /// <summary>
-        ///     Remove first data from queue
+        ///     從佇列中移除第一條資料
         /// </summary>
         void RemoveFirstData();
 
         /// <summary>
-        ///       Remove all data from queue
+        ///     清空佇列中的所有資料
         /// </summary>
         void ClearData();
 
         /// <summary>
-        ///     Check MQ path exist.
+        ///     檢查訊息佇列路徑是否存在
         /// </summary>
-        /// <returns> true：exist，false：none </returns>
+        /// <returns>true：存在；false：不存在</returns>
         bool IsExists();
 
         /// <summary>
-        ///     Get data counts from queue
+        ///     從佇列中取得資料的數量
         /// </summary>
-        /// <returns> Count data counts from queue </returns>
+        /// <returns>佇列中的資料數量</returns>
         long CountData();
 
         /// <summary>
-        ///     Try dequeue data
+        ///     嘗試預覽佇列中的第一條資料，但不移除它
         /// </summary>
-        /// <returns> Data </returns>
+        /// <returns>佇列中的第一條資料</returns>
         object PeekMsg();
 
         /// <summary>
-        ///     Dequeue data
+        ///     從佇列中取出並移除第一條資料
         /// </summary>
-        /// <returns> Data </returns>
+        /// <returns>佇列中的第一條資料</returns>
         object ReceiveMsg();
 
         /// <summary>
-        /// Delete MQ
+        /// 刪除訊息佇列
         /// </summary>
         void DeleteQueue();
     }
