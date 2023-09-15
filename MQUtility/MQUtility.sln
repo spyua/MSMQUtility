@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQUtility", "MQUtility\MQUtility.csproj", "{0822A29A-5D97-49CB-9ED0-C6A0A779B47C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSMQUtility", "MSMQUtility\MSMQUtility.csproj", "{AB1C3412-736F-4507-AAE6-4F98AD43FE72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0822A29A-5D97-49CB-9ED0-C6A0A779B47C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0822A29A-5D97-49CB-9ED0-C6A0A779B47C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0822A29A-5D97-49CB-9ED0-C6A0A779B47C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0822A29A-5D97-49CB-9ED0-C6A0A779B47C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB1C3412-736F-4507-AAE6-4F98AD43FE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB1C3412-736F-4507-AAE6-4F98AD43FE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB1C3412-736F-4507-AAE6-4F98AD43FE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB1C3412-736F-4507-AAE6-4F98AD43FE72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
